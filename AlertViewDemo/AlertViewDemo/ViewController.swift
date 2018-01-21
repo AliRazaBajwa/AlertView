@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         
         if(alertViewResponse(title: "Alert", message: "This is bla bla message")){
             print("Control your response here is Yes Button pressed")
+            performSegue(withIdentifier: "SecondVC", sender: self)
         }
         
     }
@@ -43,6 +44,19 @@ class ViewController: UIViewController {
       responseAlertView(title: "Do you like pizza", message: "YES or No")
        
     }
+    
+    @IBAction func alertViewBtnPressed(_ sender: UIButton) {
+        
+        alertViewTextField(title: "Enter Your name", message: "")
+    }
+    
+    
+    @IBAction func alertViewCustomBtnPressed(_ sender: UIButton) {
+        
+        let popupVC = storyboard?.instantiateViewController(withIdentifier: "PopUpVC") as! PopUpVC
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
 
     // AlerView Functions with parameters 
     func simpleAlertView(title: String , message: String) {
@@ -69,10 +83,13 @@ class ViewController: UIViewController {
     //Reusable AlertView with Bool Response
     func alertViewResponse(title: String , message: String) -> Bool{
         
-        var isTrue:Bool = false;
+        var isTrue:Bool = true;
         let alertCotroller = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let yes = UIAlertAction(title: "YES", style: .default) { (responseAction) in
+            if isTrue {
            isTrue = true
+                
+            }
         }
         let no = UIAlertAction(title: "NO", style: .default, handler: nil)
         alertCotroller.addAction(yes)
@@ -81,8 +98,20 @@ class ViewController: UIViewController {
         return isTrue;
     }
     
+    // TextField Alert View
+    func alertViewTextField (title: String , message: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addTextField { (textfield) in
     
-    
+            textfield.placeholder = "Enter your name"
+            textfield.textAlignment = .center
+            
+        }
+        alertController.addAction(ok)
+        present(alertController, animated: true, completion: nil)
+    }
     
     
 }
